@@ -10,9 +10,7 @@ project:
     RDSPassword: "$[taskcat_genpass_8]"
     RDSDBName: "$[taskcat_random-string]"
     GatewayName: "$[taskcat_random-string]"
-    HAAUser: admin@shivansh.dev
-    HostedZoneID: Z03411186LX2V3ZE3N4K
-    KeyPairName: sshvans
+    HAAUser: admin@uipathmarketplace.net
   regions:
   - ap-northeast-1
   - ap-northeast-2
@@ -30,25 +28,47 @@ project:
   - us-west-1
   - us-west-2
   shorten_stack_name: true
-  s3_regional_buckets: true
   package_lambda: false
 tests:
   default-orchestrator:
     template: ./templates/main.template.yaml
     regions:
-    - us-east-2
+    - eu-central-1
     parameters:
       AvailabilityZones: "$[taskcat_getaz_2]"
-      UiPathFQDN: test.shivansh.dev #testone.uipathmarketplace.net
+      UiPathFQDN: testone.uipathmarketplace.net
 
-  # existing-vpc:
-  #   template: ./templates/uipath-orchestrator.template.yaml
-  #   regions:
-  #     - us-east-1
-  #   parameters:
-  #     AvailabilityZones: "$[taskcat_getaz_2]"
-  #     UiPathFQDN: testtwo.shivansh.dev #testone.uipathmarketplace.net
-  #     VPCCIDR: 10.0.0.0/16
-  #     VPCID: <<vpc-id>>
-  #     PrivateSubnetIDs: <<subnet-id-1,subnet-id-2,subnet-id-3>>
-  #     PublicSubnetIDs: <<subnet-id-1,subnet-id-2,subnet-id-3>>
+  three-az-orchestrator:
+    template: ./templates/main.template.yaml
+    regions:
+    - us-east-1
+    parameters:
+      AvailabilityZones: "$[taskcat_getaz_3]"
+      UiPathFQDN: testtwo.uipathmarketplace.net
+      NumberOfAZs: 3
+
+  add-license-orchestrator:
+    template: ./templates/main.template.yaml
+    regions:
+    - us-west-1
+    parameters:
+      AvailabilityZones: "$[taskcat_getaz_2]"
+      UiPathFQDN: testthree.uipathmarketplace.net
+      OrchestratorLicense: "orchlicense"
+
+  europe-orchestrator:
+    template: ./templates/main.template.yaml
+    regions:
+    - eu-west-1
+    parameters:
+      AvailabilityZones: "$[taskcat_getaz_2]"
+      UiPathFQDN: testfour.uipathmarketplace.net
+      OrchestratorInstanceCount: "3"
+
+  existing-vpc:
+    template: ./templates/uipath-orchestrator.template.yaml
+    regions:
+      - us-west-2
+    parameters:
+      AvailabilityZones: "$[taskcat_getaz_2]"
+      UiPathFQDN: testfive.uipathmarketplace.net
